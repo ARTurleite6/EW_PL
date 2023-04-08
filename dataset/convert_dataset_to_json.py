@@ -4,10 +4,19 @@ from typing import Any
 
 def transform_line(line: dict[str, str | Any]):
 
-    INTEGER_KEYS = ['ID', 'UnitId']
+    INTEGER_KEYS = ['id', 'unitId']
 
     for int_key in INTEGER_KEYS:
         line[int_key] = int(line[int_key])
+
+def lower_case_line(line: dict[str, str | Any]) -> dict[str, str | Any]:
+    new_line: dict[str, str | Any] = dict()
+
+    for key, value in line.items():
+        new_key = key[0].lower() + key[1:]
+        new_line[new_key] = value
+
+    return new_line
 
 def load_csv(file_path: str) -> list[dict[str, str]]:
     json_entries: list[dict[str, str]] = list()
@@ -16,12 +25,14 @@ def load_csv(file_path: str) -> list[dict[str, str]]:
 
         csv_reader = csv.DictReader(file, delimiter=';')
 
-        lido = False
-        
         for csv_entry in csv_reader:
-            if not lido:
-                print(csv_entry)
-                lido = True
+
+            #Nao sei porque isto ta a ser preciso mas pronto
+            csv_entry["id"] = csv_entry["\ufeffID"]
+            del csv_entry["\ufeffID"]
+
+            csv_entry = lower_case_line(csv_entry)
+
             transform_line(csv_entry)
             json_entries.append(csv_entry)
 
