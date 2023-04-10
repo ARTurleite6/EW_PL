@@ -11,15 +11,11 @@ def main():
 
     with open(file_path) as file:
         content = json.load(file)
-        sent_first = False
 
         for obj in content:
-            if sent_first:
                 answer = post("http://localhost:8080/entries", json=obj)
-                print(answer)
-                return
-            else:
-                sent_first = True
+                if answer.status_code == 404:
+                    print("ocorreu erro")
 
 if __name__ == "__main__":
     main()

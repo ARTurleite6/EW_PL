@@ -2,12 +2,42 @@ import csv, json, re
 from sys import argv
 from typing import Any
 
-def transform_line(line: dict[str, str | Any]):
+def convert_date(date: str) -> str:
+    date_re = r"(\d+)\/(\d+)\/(\d+)\s(\d+)\:(\d+)\:(\d+)"
 
+    return re.sub(date_re, r"\3-\2-\1T\4:\5:\6", date)
+
+def convert_all_dates(line: dict[str, str | Any]) -> dict[str, str | Any]: 
+    DATE_KEYS =  ['unitDateInitial', 'unitDateFinal', 'created', 'processInfoDate']
+
+    for date_key in DATE_KEYS:
+        line[date_key] = convert_date(line[date_key])
+
+    return line
+
+def convert_all_integers(line: dict[str, str | Any]) -> dict[str, str | Any]:
     INTEGER_KEYS = ['id', 'unitId']
-
     for int_key in INTEGER_KEYS:
         line[int_key] = int(line[int_key])
+    return line
+
+def convert_all_booleans(line: dict[str, str | Any]) -> dict[str, str | Any]:
+    for key, value in line.items():
+        if value == "False":
+            line[key] = "false"
+        elif value == "True":
+            line[key] = "true"
+
+    return line
+
+def transform_line(line: dict[str, str | Any]) -> dict[str, str | Any]:
+
+    line = convert_all_dates(line)
+    line = convert_all_integers(line)
+    line = convert_all_booleans(line)
+
+    return line
+
 
 def lower_case_line(line: dict[str, str | Any]) -> dict[str, str | Any]:
     new_line: dict[str, str | Any] = dict()
@@ -33,7 +63,7 @@ def load_csv(file_path: str) -> list[dict[str, str]]:
 
             csv_entry = lower_case_line(csv_entry)
 
-            transform_line(csv_entry)
+            csv_entry = transform_line(csv_entry)
             json_entries.append(csv_entry)
 
     return json_entries

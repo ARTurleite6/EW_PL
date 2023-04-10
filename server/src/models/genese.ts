@@ -2,11 +2,11 @@ import mongoose, { InferSchemaType } from "mongoose";
 import { mongoConn } from "../main";
 
 const schema = new mongoose.Schema({
-    id: { type: mongoose.Types.ObjectId, required: true },
+    id: { type: Number, required: true, unique: true },
     descriptionLevel: { type: String, required: true },
     entityType: { type: String, required: false },
-    completeUnitID: { type: String, required: true, unique: true },
-    unitID: { type: mongoose.Types.ObjectId, required: true, unique: true },
+    completeUnitId: { type: String, required: true, unique: true },
+    unitId: { type: Number, required: true, unique: true },
     repositoryCode: { type: String, required: true },
     countryCode: { type: String, required: true },
     unitTitleType: { type: String, required: false },
@@ -18,7 +18,7 @@ const schema = new mongoose.Schema({
     unitDateFinal: { type: Date, required: true },
     unitDateInitialCertainty: { type: Boolean, required: true },
     unitDateFinalCertainty: { type: Boolean, required: true },
-    allowUNitDatesInference: { type: Boolean, required: true },
+    allowUnitDatesInference: { type: Boolean, required: true },
     accumulationDates: { type: String, required: false },
     unitDateBulk: { type: String, required: false },
     unitDateNotes: { type: String, required: false },
@@ -41,7 +41,7 @@ const schema = new mongoose.Schema({
     acqInfo: { type: String, required: false },
     classifier: { type: String, required: false },
     scopeContent: { type: String, required: true },
-    relationships: { type: [mongoose.Types.ObjectId] },
+    relationships: { type: [Number] },
     terms: { type: String, required: false },
     documentTradition: { type: String, required: false },
     documentTypology: { type: String, required: false },
@@ -89,6 +89,7 @@ const schema = new mongoose.Schema({
     processInfoDate: { type: Date, required: true },
     otherDescriptiveData: { type: String, required: false },
     processInfo: { type: String, required: false },
+
 });
 
 export type Entry = InferSchemaType<typeof schema>;
