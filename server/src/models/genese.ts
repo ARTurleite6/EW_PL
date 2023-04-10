@@ -3,6 +3,7 @@ import { mongoConn } from "../main";
 
 const schema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
+    name: { type: String, required: true },
     descriptionLevel: { type: String, required: true },
     entityType: { type: String, required: false },
     completeUnitId: { type: String, required: true, unique: true },
@@ -89,10 +90,38 @@ const schema = new mongoose.Schema({
     processInfoDate: { type: Date, required: true },
     otherDescriptiveData: { type: String, required: false },
     processInfo: { type: String, required: false },
-
+    filiacoes: [String],
 });
 
 export type Entry = InferSchemaType<typeof schema>;
 
 export const EntryModel = mongoose.model('entries', schema);
 
+export function parseFiliacoes(entry: Entry): string[] | undefined {
+
+    const filiacao_regex = /Filiação: (.+?)\./
+
+    const re_match = entry.scopeContent.match(filiacao_regex)
+    if (!re_match || re_match.length < 2) return undefined;
+    const nomes_group = re_match[1];
+
+    const lista_nomes_regex = /([\w\s]+)(?:,\w+)?\s+\e\s+([\w\s]+)(?:,\w+)?/;
+
+    const lista_nomes = nomes_group.match(lista_nomes_regex);
+
+    if (!lista_nomes || lista_nomes.length < 2) return undefined;
+
+    return lista_nomes.slice(1);
+}
+
+
+export function parseName(entry: Entry): string | undefined {
+    const expression = "Inquirição de genere de ([\w\s]+)";
+
+    const re_match = entry.unitTitle.match(expression);
+    if (!re_match || re_match.length < 2) return undefined;
+
+    const name = re_match[1];
+
+    return name;
+}
