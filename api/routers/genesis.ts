@@ -23,7 +23,6 @@ indexRouter.get('/:id', async (req, res) => {
             res.send('No Genesis Found');
         }
     } catch (error) {
-        console.dir(error);
         res.send('No Genesis Found');
     }
 });
