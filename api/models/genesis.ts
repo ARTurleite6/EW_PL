@@ -437,8 +437,8 @@ const genesisSchema = new Schema({
         required: true,
         unique: false,
     },
-    Name: {
-        type: String,
+    Names: {
+        type: [[String]],
         required: true,
         unique: true,
     },

@@ -2,7 +2,7 @@ import { Genesis } from "../models/genesis";
 import { GenesisModel } from "../models/genesis";
 
 export async function getAllGeneses(): Promise<Genesis[] | undefined> {
-    return await GenesisModel.find().select("UnitId UnitTitle UnitDateInitial UnitDateFinal").exec() as Genesis[];
+    return await GenesisModel.find().select("UnitId UnitTitle UnitDateInitial UnitDateFinal Relationships").exec() as Genesis[];
 }
 
 export async function getGenese(id: string): Promise<Genesis | undefined> {
