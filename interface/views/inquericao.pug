@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 Inquirição de Genese - #{inquericao.UnitId}
+
+  .w3-card.w3-margin
+    .w3-container
+      each prop in Object.keys(inquericao)
+        - const value = inquericao[prop]
+        if value !== null && value !== ''
+          p
+            strong #{prop}:
+            | #{value}
+

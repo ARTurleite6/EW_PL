@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 Inquirições de Genese
+
+  each inquericao in inquericoes
+    .w3-card.w3-margin
+      .w3-container
+        .unitId Unit ID: #{inquericao.UnitId}
+        .unitTitle Unit Title: #{inquericao.UnitTitle}
+        .unitDateInitial Unit Date Initial: #{inquericao.UnitDateInitial}
+        .unitDateFinal Unit Date Final: #{inquericao.UnitDateFinal}
+      a.w3-button.w3-blue.w3-margin-top(href=`/genese/${inquericao.UnitId}`) View Details
+
+  if inquericoes.length === 0
+    .w3-card.w3-margin
+      p No Inquirições de Genese found.
+

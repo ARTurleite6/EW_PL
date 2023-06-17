@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  .w3-container
+    h1.w3-text-teal Geneses
+    p Welcome to my website!
+
+  .w3-container.w3-card
+    h2.w3-text-teal Login
+    form(action='/auth/login', method='post')
+      .w3-row.w3-section
+        label.w3-text-teal Email
+        input.w3-input(type='email', name='email', required)
+      .w3-row.w3-section
+        label.w3-text-teal Password
+        input.w3-input(type='password', name='password', required)
+      button.w3-button.w3-teal(type='submit') Login
+

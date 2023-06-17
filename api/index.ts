@@ -9,11 +9,17 @@ import { User } from './models/user';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import listEndpoints from 'express-list-endpoints';
 import { JWT_SECRET } from './controllers/authetication';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 const app = express();
 
+app.use(cors({
+    origin: 'http://localhost:15030',
+    credentials: true,
+}));
+app.use(cookieParser());
 app.use(morgan('dev'));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
@@ -24,15 +30,6 @@ passport.use(new JWTStrategy({
 },
     async (jwtPayload, cb) => {
         try {
-            const exp = jwtPayload.user.exp;
-
-            const expirationDate = new Date(exp * 1000);
-            const currentDate = new Date();
-
-            if (expirationDate <= currentDate) {
-                return cb(null, false, { message: 'Token has expired' });
-            }
-
             const user = await User.findByIdAndUpdate(jwtPayload.user._id, { dataUltimoAcesso: new Date() }).exec();
             if (user) {
                 return cb(null, user);

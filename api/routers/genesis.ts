@@ -4,6 +4,7 @@ import { getAllGeneses, getGenese } from '../controllers/geneses';
 export const indexRouter = Router();
 
 indexRouter.get('/:id', async (req, res) => {
+    console.dir(req.cookies);
     try {
         const genese = await getGenese(req.params.id);
         console.log(genese);

@@ -14,20 +14,19 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
         }
 
         if (!user) {
-            return res.status(401).json({ message: "Authentication failed", user: null });
+            return res.status(401).json({ message: "Authentication failed", token: null });
         }
 
         req.login(user, { session: false }, async (error) => {
             if (error)
                 return next(error);
 
-            const expirationDate = Math.floor(Date.now() / 1000) + (60 * 60)
-
             await User.updateOne({ _id: user._id }, { dataUltimoAcesso: new Date() }).exec()
 
-            const body = { _id: user._id, email: user.email, userType: user.nivel, exp: expirationDate };
-            const token = jwt.sign({ user: body }, JWT_SECRET);
-            return res.json({ message: "Authentication sucessfully", token: token });
+            const body = { _id: user._id, email: user.email, name: user.nome, userType: user.nivel };
+            const token = jwt.sign({ user: body }, JWT_SECRET, { expiresIn: "1h" });
+
+            res.json({ message: "Authentication sucessfully", token: token });
         });
     })(req, res, next);
 }
