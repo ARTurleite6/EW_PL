@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import { UserType } from '../models/user';
+import { User, UserType } from '../models/user';
 
 export const JWT_SECRET = 'TOP_SECRET';
 
@@ -21,7 +21,11 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
             if (error)
                 return next(error);
 
-            const body = { _id: user._id, email: user.email, userType: user.nivel };
+            const expirationDate = Math.floor(Date.now() / 1000) + (60 * 60)
+
+            await User.updateOne({ _id: user._id }, { dataUltimoAcesso: new Date() }).exec()
+
+            const body = { _id: user._id, email: user.email, userType: user.nivel, exp: expirationDate };
             const token = jwt.sign({ user: body }, JWT_SECRET);
             return res.json({ message: "Authentication sucessfully", token: token });
         });

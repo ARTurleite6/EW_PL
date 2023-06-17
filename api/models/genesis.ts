@@ -440,12 +440,13 @@ const genesisSchema = new Schema({
     Names: {
         type: [String],
         required: true,
-        unique: true,
+        unique: false,
     },
     Relationships: {
-        type: [String],
+        type: [Number],
         required: true,
         unique: false,
+        default: [],
     },
 });
 

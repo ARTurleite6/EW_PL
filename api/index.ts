@@ -24,7 +24,16 @@ passport.use(new JWTStrategy({
 },
     async (jwtPayload, cb) => {
         try {
-            const user = await User.findById(jwtPayload.user._id).exec();
+            const exp = jwtPayload.user.exp;
+
+            const expirationDate = new Date(exp * 1000);
+            const currentDate = new Date();
+
+            if (expirationDate <= currentDate) {
+                return cb(null, false, { message: 'Token has expired' });
+            }
+
+            const user = await User.findByIdAndUpdate(jwtPayload.user._id, { dataUltimoAcesso: new Date() }).exec();
             if (user) {
                 return cb(null, user);
             }
