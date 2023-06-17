@@ -9,7 +9,7 @@ group_names_re = re.compile(r'^Filiação: ([^\.]+\.)')
 names_re = re.compile(r"([A-Z][a-z]+)(?:\s+[A-Z][a-z]+)*")
 inside_parenthesis = re.compile(r"\((.*)\)")
 
-def get_my_name(entry: dict[str | Any, str | Any]) -> list[list[str]]:
+def get_my_name(entry: dict[str | Any, str | Any]) -> list[str]:
     campo_nomes = inquiricao_re.match(entry['UnitTitle'])
     result: list[list[str]] = list()
     if campo_nomes:
@@ -43,16 +43,16 @@ def get_my_name(entry: dict[str | Any, str | Any]) -> list[list[str]]:
                 else:
                     alternativas.append(alternativa)
             result.append(alternativas)
-    return result
+    return [item for sublist in result for item in sublist]
 
 def get_names_scope(entry: dict[str | Any, str | Any]) -> list[str]:
     scope = entry['ScopeContent']
     list_names = group_names_re.match(scope)
 
-    if list_names:
-        list_names = list_names.group(1)
-    else:
+    if not list_names:
         return []
+
+    list_names = list_names.group(1)
 
     return list(map(lambda x: x.group(0), names_re.finditer(list_names)))
 
