@@ -2,7 +2,17 @@ import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-export default function authentication(req: Request, res: Response, next: NextFunction) {
+export function authenticated(req: Request, res: Response, next: NextFunction) {
+    const token: string | undefined = req.cookies.jwtToken;
+
+    if (!token) {
+        res.redirect('/auth/login');
+    } else {
+        next();
+    }
+}
+
+export function authentication(req: Request, res: Response, next: NextFunction) {
     return passport.authenticate(
         'local',
         { session: false },

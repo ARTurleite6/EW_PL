@@ -8,6 +8,7 @@ import indexRouter from "./routers";
 import morgan from 'morgan';
 import requestSender from "./axios_instance";
 import cors from "cors";
+import { authenticated } from "./controllers/authentication";
 
 const app = express();
 
@@ -31,7 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
 app.use("/auth", authRouter);
-app.use('/', indexRouter);
+app.use('/', authenticated, indexRouter);
 
 passport.use(new LocalStrategy(
     {
