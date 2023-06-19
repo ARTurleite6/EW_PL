@@ -7,8 +7,14 @@ block content
     .w3-container
       each prop in Object.keys(inquericao)
         - const value = inquericao[prop]
-        if value !== null && value !== ''
-          p
-            strong #{prop}:
-            | #{value}
+        if prop !== 'Relationships'
+            p
+                strong #{prop}:
+                | #{value}
+      p
+        strong Relationships:
+            each relation in inquericao.Relationships
+                p
+                   a(href=`/genese/${relation.UnitId}`) #{relation.UnitTitle}
+  a(href="/") Return to Main Page
 

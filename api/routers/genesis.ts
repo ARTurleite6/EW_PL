@@ -6,25 +6,30 @@ export const indexRouter = Router();
 indexRouter.get('/:id', async (req, res) => {
     console.dir(req.cookies);
     try {
-        const genese = await getGenese(req.params.id);
+        const genese = await getGenese(parseInt(req.params.id));
         console.log(genese);
         if (genese) {
-            res.send(genese);
+            res.status(200).json(genese);
         } else {
-            res.send('No Genesis Found');
+            res.status(404).json('No Genesis Found');
         }
     } catch (error) {
-        res.send('No Genesis Found');
+        console.log(error);
+        res.status(404).json('No Genesis Found');
     }
 });
 
-indexRouter.get('/', async (_req, res) => {
-    const genesis = await getAllGeneses();
+indexRouter.get('/', async (req, res) => {
+
+    const filterOptions = req.query;
+    console.dir(filterOptions);
+
+    const genesis = await getAllGeneses(filterOptions);
     console.log(genesis);
     if (genesis) {
         res.send(genesis);
     } else {
-        res.send('No Genesis Found');
+        res.status(404).send('No Genesis Found');
     }
 });
 
