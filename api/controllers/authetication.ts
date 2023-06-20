@@ -26,6 +26,9 @@ export function authenticate(req: Request, res: Response, next: NextFunction): C
             const body = { _id: user._id, email: user.email, name: user.nome, userType: user.nivel };
             const token = jwt.sign({ user: body }, JWT_SECRET, { expiresIn: "1h" });
 
+            const expirationDate = new Date(Date.now() + 3_600_000);
+
+            res.cookie("jwtToken", token, { secure: true, expires: expirationDate, sameSite: "none"});
             res.status(200).json({ message: "Authentication sucessfully", token: token });
         });
     })(req, res, next);

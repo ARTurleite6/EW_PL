@@ -2,27 +2,6 @@ import { FilterQuery } from "mongoose";
 import { Genesis } from "../models/genesis";
 import { GenesisModel } from "../models/genesis";
 
-export async function getGeneseByName(name: string): Promise<Genesis[]> {
-    return await GenesisModel.aggregate([
-        {
-            $unwind: "$Names",
-        },
-        {
-            $match: {
-                Names: name,
-            },
-        },
-        {
-            $project: {
-                UnitId: true,
-                UnitTitle: true,
-                UnitDateInitial: true,
-                UnitDateFinal: true,
-            },
-        },
-    ]).exec();
-}
-
 export async function getAllGeneses(filterOptions: FilterQuery<Genesis> & { Name?: string }): Promise<Genesis[]> {
 
     const pipelines: any[] = []
@@ -37,8 +16,6 @@ export async function getAllGeneses(filterOptions: FilterQuery<Genesis> & { Name
         filterOptions.Names = name;
     }
 
-    console.log("Filter Options = ", filterOptions);
-
     pipelines.push({
         $match: filterOptions
     },
@@ -51,11 +28,21 @@ export async function getAllGeneses(filterOptions: FilterQuery<Genesis> & { Name
             },
         });
 
-    console.log(pipelines);
+    if ("_page" in filterOptions && "_limit" in filterOptions) {
+        const page = parseInt(filterOptions._page);
+        const limit = parseInt(filterOptions._limit);
+        delete filterOptions._page;
+        delete filterOptions._limit;
+        pipelines.push({
+            $skip: (page - 1) * limit
+        },
+            {
+                $limit: limit
+            })
+    }
 
 
     return await GenesisModel.aggregate(pipelines).exec();
-    //return await GenesisModel.find(filterOptions).select("UnitId UnitTitle UnitDateInitial UnitDateFinal").exec() as Genesis[];
 }
 
 export async function getGenese(id: number): Promise<Genesis | undefined> {
@@ -90,7 +77,6 @@ export async function getGenese(id: number): Promise<Genesis | undefined> {
         },
     ]).exec();
 
-    console.dir(response);
 
     if (response.length == 0) {
         console.log('nao encontrei ninguem');

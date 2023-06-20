@@ -15,7 +15,8 @@ import cors from 'cors';
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:15030',
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
 }));
 app.use(cookieParser());
@@ -24,8 +25,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
+const cookieExtractor = (req: express.Request) => {
+    let jwt = null;
+
+    console.dir(req.cookies);
+
+    if(req && req.cookies) {
+        jwt = req.cookies.jwtToken;
+    }
+    return jwt;
+}
+
 passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor, ExtractJwt.fromAuthHeaderAsBearerToken()]),
     secretOrKey: JWT_SECRET,
 },
     async (jwtPayload, cb) => {
