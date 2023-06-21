@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { instance } from "./App";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import ReactPaginate from "react-paginate";
 import Pagination from "./Pagination";
 
 type GeneseProps = {
@@ -33,21 +31,26 @@ const ListPage = () => {
                 setCurrentList(newList);
                 setList(response.data);
 
+
                 const pageCount = Math.ceil(response.data.length / limitPage);
+                console.log(pageCount);
                 setPageCount(pageCount);
             }).catch((error) => {
                 console.log(error);
             });
-    }, []);
+    }, [limitPage]);
 
-    const handlePageChange = (nextPage: number) => {
-
-        const skip = (nextPage - 1) * limitPage;
+    const handlePageChange = (nextPage: number | string) => {
+        if (nextPage === 0 || nextPage === pageCount + 1) return;
+        let next = typeof nextPage == 'string' ? parseInt(nextPage) : nextPage;
+        const skip = (next - 1) * limitPage;
         const newList = list.slice(skip, skip + limitPage);
+
+        console.log(next);
 
         setCurrentList(newList);
 
-        setCurrentPage(nextPage);
+        setCurrentPage(next);
     }
 
     const handleOnClick = (id: number) => {
@@ -78,7 +81,7 @@ const ListPage = () => {
                 </tbody>
             </table>
             <div className="flex justify-center mt-8">
-                <Pagination pageCount={pageCount} currentPage={currentPage} onPageChange={handlePageChange} />
+                <Pagination totalCount={pageCount} pageSize={limitPage} currentPage={currentPage} onPageChange={handlePageChange} />
             </div>
         </div>
     );
