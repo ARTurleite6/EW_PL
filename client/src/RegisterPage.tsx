@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [nome, setNome] = useState('');
     const [nivel, setNivel] = useState('consumidor');
+
+    const navigator = useNavigate();
 
     const handleNomeChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setNome(e.target.value);
@@ -31,81 +33,88 @@ const RegisterPage = () => {
         console.log('Password:', password);
     };
 
+    const goToLoginPage = () => {
+        navigator('/login');
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white p-8 shadow-md rounded-md">
-                <h2 className="text-2xl font-bold mb-6">Register</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label htmlFor="nome" className="block mb-1 font-medium">
-                            Nome
-                        </label>
-                        <input
-                            type="nome"
-                            id="nome"
-                            className="w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                            value={nome}
-                            onChange={handleNomeChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="email" className="block mb-1 font-medium">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            className="w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                            value={email}
-                            onChange={handleEmailChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="password" className="block mb-1 font-medium">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            className="w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                            value={password}
-                            onChange={handlePasswordChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="nivel" className="block mb-1 font-medium">
-                            Nivel
-                        </label>
-                        <select
-                            id="nivel"
-                            className="w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                            value={nivel}
-                            onChange={handleNivelChange}
-                            required
-                        >
-                            <option value="consumidor">Consumidor</option>
-                            <option value="administrador">Administrador</option>
-                        </select>
-                    </div>
+            <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
+                <h1 className="text-2xl font-semibold text-center">Register</h1>
+                <form onSubmit={handleSubmit} className="mt-4">
+                    <label htmlFor="Nome" className="block mb-2 font-medium text-gray-700">
+                        Nome
+                    </label>
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        value={nome}
+                        onChange={handleNomeChange}
+                        className="w-full px-4 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                        required
+                    />
+
+                    <label htmlFor="email" className="block mt-3 mb-2 font-medium text-gray-700">
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={handleEmailChange}
+                        className="w-full px-4 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                        required
+                    />
+
+                    <label htmlFor="password" className="block mt-3 mb-2 font-medium text-gray-700">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        className="w-full px-4 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                        required
+                    />
+
+                    <label htmlFor="nivel" className="block mt-3 mb-2 font-medium text-gray-700">
+                        User Type
+                    </label>
+                    <select
+                        id="nivel"
+                        name="nivel"
+                        value={nivel}
+                        onChange={handleNivelChange}
+                        className="w-full px-4 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                        <option value="consumidor">Consumer</option>
+                        <option value="administrador">Administrator</option>
+                    </select>
+
+
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
+                        className="w-full mt-6 py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     >
                         Register
                     </button>
+
+                    <button
+                        type="button"
+                        onClick={goToLoginPage}
+                        className="mt-2 text-sm text-blue-500 hover:underline focus:outline-none"
+                    >
+                        Already have an account? Login
+                    </button>
                 </form>
-                <p className="mt-4 text-center">
-                    Already have an account?{' '}
-                    <Link to="/login" className="text-blue-500 hover:underline">
-                        Login
-                    </Link>
-                </p>
             </div>
         </div>
     );
+
 };
 
 export default RegisterPage;

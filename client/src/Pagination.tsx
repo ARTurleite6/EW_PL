@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import "./App.css"
 import "./Pagination.css"
 
@@ -58,6 +58,7 @@ function usePagination(props: { currentPage: number, totalCount: number, sibling
 }
 
 const Pagination = (props: { onPageChange: (selectedPage: number | string) => void; totalCount: number; siblingCount?: 1 | undefined; currentPage: number; pageSize: number; }) => {
+
     const {
         onPageChange,
         totalCount,
@@ -87,6 +88,8 @@ const Pagination = (props: { onPageChange: (selectedPage: number | string) => vo
 
     let lastPage = paginationRange[paginationRange.length - 1];
 
+    console.dir(paginationRange);
+
     return (
 
         <nav aria-label="Page navigation example">
@@ -101,22 +104,36 @@ const Pagination = (props: { onPageChange: (selectedPage: number | string) => vo
 
                     // If the pageItem is a DOT, render the DOTS unicode character
                     if (pageNumber === '...') {
-                        <li className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <li key={pageNumber} className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                             &#8230
                         </li>
                     }
 
-                    // Render our Page Pills
-                    return (
-                        <li
-                            className={classnames("px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white", {
-                                selected: pageNumber === currentPage
-                            })}
-                            onClick={() => onPageChange(pageNumber)}
-                        >
-                            {pageNumber}
-                        </li>
-                    );
+                    if (pageNumber !== currentPage) {
+                        // Render our Page Pills
+                        return (
+                            <li key={pageNumber}
+                                className={classnames("px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white", {
+                                    selected: pageNumber === currentPage
+                                })}
+                                onClick={() => onPageChange(pageNumber)}
+                            >
+                                {pageNumber}
+                            </li>
+                        );
+                    } else {
+                        // Render our Page Pills
+                        return (
+                            <li key={pageNumber}
+                                className={classnames("px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white", {
+                                    selected: pageNumber === currentPage
+                                })}
+                                onClick={() => onPageChange(pageNumber)}
+                            >
+                                {pageNumber}
+                            </li>
+                        );
+                    }
                 })}
                 <li onClick={onNext} className={classnames("px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white", {
                     disabled: currentPage === lastPage

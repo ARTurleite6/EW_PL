@@ -2,18 +2,24 @@ import { useEffect, useState } from "react";
 import { instance } from "./App";
 import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
+import SearchBar from "./components/SearchBar";
+import PageCountFilter from "./components/PageCountFilter";
 
 type GeneseProps = {
     UnitId: number,
     UnitTitle: string,
     UnitDateInitial: string,
     UnitDateFinal: string,
+    Names: string[],
 }
 
 const ListPage = () => {
+
+    const [filterName, setFilterName] = useState<string>("");
+
     const [limitPage, setLimitPage] = useState(10);
 
-    const [pageCount, setPageCount] = useState(0);
+    const [totalCount, setTotalCount] = useState(0);
 
     const navigator = useNavigate();
 
@@ -32,21 +38,31 @@ const ListPage = () => {
                 setList(response.data);
 
 
-                const pageCount = Math.ceil(response.data.length / limitPage);
-                console.log(pageCount);
-                setPageCount(pageCount);
+                setTotalCount(response.data.length);
             }).catch((error) => {
                 console.log(error);
             });
     }, [limitPage]);
 
+    const filterListBySubstring = (list: GeneseProps[], names: string[]) => {
+        return list.filter((entry) =>
+            entry.Names.some((name) => names.some((filterName) => {
+                return name.includes(filterName);
+            }))
+        );
+    };
+
     const handlePageChange = (nextPage: number | string) => {
-        if (nextPage === 0 || nextPage === pageCount + 1) return;
+        if (nextPage === 0) return;
         let next = typeof nextPage == 'string' ? parseInt(nextPage) : nextPage;
         const skip = (next - 1) * limitPage;
-        const newList = list.slice(skip, skip + limitPage);
 
-        console.log(next);
+        let newList = list.filter((entry) => entry.UnitTitle.includes(filterName));
+
+        setTotalCount(newList.length);
+        if (nextPage === totalCount) return;
+
+        newList = newList.slice(skip, skip + limitPage);
 
         setCurrentList(newList);
 
@@ -55,11 +71,26 @@ const ListPage = () => {
 
     const handleOnClick = (id: number) => {
         return navigator('/genesis/' + id);
-    }
+    };
+
+    const changeFilterValue = (filterValue: string) => {
+        const namesToFilter = filterValue;
+
+        setFilterName(namesToFilter);
+        handlePageChange(1);
+    };
 
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">List Page</h1>
+            <div className="flex flex-row justify-center">
+                <div className="ml-4 mb-4 w-9/12">
+                    <SearchBar message="Search Names (separated by semi-comma)" onSubmit={changeFilterValue} />
+                </div>
+                <div className="align-middle ml-20">
+                    <PageCountFilter handlePageChange={setLimitPage} />
+                </div>
+            </div>
             <table className="min-w-full bg-white border border-gray-300">
                 <thead>
                     <tr>
@@ -81,7 +112,7 @@ const ListPage = () => {
                 </tbody>
             </table>
             <div className="flex justify-center mt-8">
-                <Pagination totalCount={pageCount} pageSize={limitPage} currentPage={currentPage} onPageChange={handlePageChange} />
+                <Pagination totalCount={totalCount} pageSize={limitPage} currentPage={currentPage} onPageChange={handlePageChange} />
             </div>
         </div>
     );

@@ -25,7 +25,14 @@ export async function getAllGeneses(filterOptions: FilterQuery<Genesis> & { Name
                 UnitTitle: true,
                 UnitDateInitial: true,
                 UnitDateFinal: true,
+                Names: true,
             },
+        },
+        {
+            $sort: {
+                UnitId: 1,
+                UnitTitle: 1,
+            }
         });
 
     if ("_page" in filterOptions && "_limit" in filterOptions) {
