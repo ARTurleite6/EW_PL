@@ -28,7 +28,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction): C
 
             const expirationDate = new Date(Date.now() + 3_600_000);
 
-            res.cookie("jwtToken", token, { secure: true, expires: expirationDate, sameSite: "none"});
+            res.cookie("jwtToken", token, { secure: true, expires: expirationDate, sameSite: "none" });
             res.status(200).json({ message: "Authentication sucessfully", token: token });
         });
     })(req, res, next);

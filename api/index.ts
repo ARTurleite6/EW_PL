@@ -30,7 +30,7 @@ const cookieExtractor = (req: express.Request) => {
 
     console.dir(req.cookies);
 
-    if(req && req.cookies) {
+    if (req && req.cookies) {
         jwt = req.cookies.jwtToken;
     }
     return jwt;

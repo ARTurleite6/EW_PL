@@ -1,5 +1,6 @@
 import { Router } from 'express'
-import { getAllGeneses, getGenese } from '../controllers/geneses';
+import { createGenere, getAllGeneses, getGenese } from '../controllers/geneses';
+import { GenesisModel } from '../models/genesis';
 
 export const indexRouter = Router();
 
@@ -33,3 +34,10 @@ indexRouter.get('/', async (req, res) => {
     }
 });
 
+indexRouter.post('/', async (req, res) => {
+    try {
+        createGenere(req.body);
+    } catch (error) {
+        res.status(400).send('Error creating new Genese: ' + error);
+    }
+});

@@ -2,6 +2,11 @@ import { FilterQuery } from "mongoose";
 import { Genesis } from "../models/genesis";
 import { GenesisModel } from "../models/genesis";
 
+export async function createGenere(genese: Genesis): Promise<Genesis> {
+    const newGenese = new GenesisModel(genese);
+    return await newGenese.save();
+}
+
 export async function getAllGeneses(filterOptions: FilterQuery<Genesis> & { Name?: string }): Promise<Genesis[]> {
 
     const pipelines: any[] = []
