@@ -27,13 +27,18 @@ const ListPage = () => {
 
     const [currentList, setCurrentList] = useState<GeneseProps[]>([]);
 
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(localStorage.getItem("currentPage") ?? "1"));
+
+    useEffect(() => {
+        localStorage.setItem("currentPage", currentPage.toString());
+    }, [currentPage]);
 
     useEffect(() => {
         instance.get('/api/genesis')
             .then((response) => {
+                const skip = (currentPage - 1) * limitPage;
                 console.log(response.data);
-                const newList = response.data.slice(0, limitPage);
+                const newList = response.data.slice(skip, skip + limitPage);
                 setCurrentList(newList);
                 setList(response.data);
 
@@ -42,6 +47,10 @@ const ListPage = () => {
             }).catch((error) => {
                 console.log(error);
             });
+
+        const currentPage = parseInt(localStorage.getItem("currentPage") ?? "1")
+
+        setCurrentPage(currentPage);
     }, [limitPage]);
 
     const filterListBySubstring = (list: GeneseProps[], names: string[]) => {
@@ -67,6 +76,8 @@ const ListPage = () => {
         setCurrentList(newList);
 
         setCurrentPage(next);
+
+        localStorage.setItem("currentPage", next.toString());
     }
 
     const handleOnClick = (id: number) => {
@@ -82,7 +93,7 @@ const ListPage = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">List Page</h1>
+            <h1 className="text-2xl font-bold mb-4">Inquirições de Genere</h1>
             <div className="flex flex-row justify-center">
                 <div className="ml-4 mb-4 w-9/12">
                     <SearchBar message="Search Names (separated by semi-comma)" onSubmit={changeFilterValue} />
@@ -102,7 +113,7 @@ const ListPage = () => {
                 </thead>
                 <tbody>
                     {currentList.map((entry) => (
-                        <tr key={entry.UnitId} onClick={() => handleOnClick(entry.UnitId)} className="dark:md:hover:bg-fuchsia-600">
+                        <tr key={entry.UnitId} onClick={() => handleOnClick(entry.UnitId)} className="dark:md:hover:bg-blue-500">
                             <td className="px-6 py-4 border-b border-gray-300">{entry.UnitId}</td>
                             <td className="px-6 py-4 border-b border-gray-300">{entry.UnitTitle}</td>
                             <td className="px-6 py-4 border-b border-gray-300">{entry.UnitDateInitial.slice(0, 10)}</td>

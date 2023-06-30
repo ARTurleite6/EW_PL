@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { instance } from './App';
 
 const RegisterPage = () => {
     const [email, setEmail] = useState('');
@@ -25,12 +26,25 @@ const RegisterPage = () => {
         setNivel(e.target.value);
     };
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
+
         // Perform register logic here
-        console.log('Register form submitted!');
-        console.log('Email:', email);
-        console.log('Password:', password);
+        try {
+            await instance.post('/api/authentication/register', {
+                email,
+                password,
+                nome,
+                nivel
+            });
+            navigator('/login');
+            console.log('Register form submitted!');
+            console.log('Email:', email);
+            console.log('Password:', password);
+            console.log('Register sucessful');
+        } catch (error) {
+            console.dir(error);
+        }
     };
 
     const goToLoginPage = () => {

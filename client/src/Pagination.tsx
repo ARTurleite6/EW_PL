@@ -101,15 +101,15 @@ const Pagination = (props: { onPageChange: (selectedPage: number | string) => vo
                 </li>
 
                 {paginationRange.map(pageNumber => {
-
+                    console.log(pageNumber);
                     // If the pageItem is a DOT, render the DOTS unicode character
                     if (pageNumber === '...') {
-                        <li key={pageNumber} className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                            &#8230
-                        </li>
+                        return (<li key={pageNumber} className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                            ...
+                        </li>);
                     }
 
-                    if (pageNumber !== currentPage) {
+                    else if (pageNumber !== currentPage) {
                         // Render our Page Pills
                         return (
                             <li key={pageNumber}
