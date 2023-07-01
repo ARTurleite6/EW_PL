@@ -1,6 +1,5 @@
 import { Router } from 'express'
-import { createGenere, getAllGeneses, getGenese } from '../controllers/geneses';
-import { GenesisModel } from '../models/genesis';
+import { createGenere, getAllGeneses, getGenese, updateGenere } from '../controllers/geneses';
 
 export const indexRouter = Router();
 
@@ -36,8 +35,21 @@ indexRouter.get('/', async (req, res) => {
 
 indexRouter.post('/', async (req, res) => {
     try {
-        createGenere(req.body);
+        console.dir(req.body);
+        const newGenere = await createGenere(req.body);
+        res.status(201).json(newGenere);
     } catch (error) {
+        console.dir(error);
         res.status(400).send('Error creating new Genese: ' + error);
+    }
+});
+
+indexRouter.put('/:id', async (req, res) => {
+    try {
+        const newGenere = await updateGenere(req.body);
+        res.status(201).json(newGenere);
+    } catch (error) {
+        console.dir(error);
+        res.status(400).send('Error updating new Genese: ' + error);
     }
 });

@@ -1,10 +1,29 @@
 import { FilterQuery } from "mongoose";
-import { Genesis } from "../models/genesis";
+import { Genesis, fillIDValues } from "../models/genesis";
 import { GenesisModel } from "../models/genesis";
 
 export async function createGenere(genese: Genesis): Promise<Genesis> {
+    genese = await fillIDValues(genese);
+    console.dir(genese);
+
     const newGenese = new GenesisModel(genese);
+
     return await newGenese.save();
+}
+
+export async function updateGenere(genere: Genesis): Promise<Genesis> {
+
+    const findGenere = await GenesisModel.findOne({ UnitId: genere.UnitId }).exec();
+
+    console.dir(genere);
+
+    if (!findGenere) {
+        throw new Error("Genere not found");
+    }
+
+    const newGenere = new GenesisModel(genere);
+
+    return await newGenere.save();
 }
 
 export async function getAllGeneses(filterOptions: FilterQuery<Genesis> & { Name?: string }): Promise<Genesis[]> {
@@ -98,7 +117,3 @@ export async function getGenese(id: number): Promise<Genesis | undefined> {
     return response[0];
 }
 
-export async function addGenese(genese: Genesis): Promise<Genesis> {
-    const newGenese = new GenesisModel(genese);
-    return await newGenese.save();
-}

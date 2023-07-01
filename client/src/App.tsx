@@ -27,7 +27,7 @@ const App = () => {
                 <Route path='/register' element={<RegisterPage />} />
                 <Route path='/genesis/edit/:id' element={<EditGenesePage />} />
                 <Route path='/genesis/new' element={
-                    <ProtectedRoute>
+                    <ProtectedRoute role='administrador'>
                         <CreateGenesePage />
                     </ProtectedRoute>
                 } />

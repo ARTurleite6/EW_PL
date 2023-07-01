@@ -1,5 +1,3 @@
-import React from 'react';
-
 const DateRangeComponent = ({ initialDate, finalDate, initialDateCertainty, finalDateCertainty }:
     { initialDate: string, finalDate: string, initialDateCertainty: boolean | string, finalDateCertainty: boolean | string }) => {
     const renderQuestionMark = () => {
