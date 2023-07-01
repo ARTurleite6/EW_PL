@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { instance } from './App';
+import InputText from './components/InputText';
+
+const REQUIRED_CAMPS = [
+    'email',
+    'password',
+    'nome',
+];
 
 const RegisterPage = () => {
     const [email, setEmail] = useState('');
@@ -10,24 +17,29 @@ const RegisterPage = () => {
 
     const navigator = useNavigate();
 
-    const handleNomeChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setNome(e.target.value);
+    const handleNomeChange = (e: string) => {
+        setNome(e);
     };
 
-    const handleEmailChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setEmail(e.target.value);
+    const handleEmailChange = (e: string) => {
+        setEmail(e);
     };
 
-    const handlePasswordChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setPassword(e.target.value);
+    const handlePasswordChange = (e: string) => {
+        setPassword(e);
     };
 
-    const handleNivelChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setNivel(e.target.value);
+    const handleNivelChange = (e: string) => {
+        setNivel(e);
     };
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
+
+        if (!email || !password || !nome) {
+            alert('Preencha todos os campos');
+            return;
+        }
 
         // Perform register logic here
         try {
@@ -56,44 +68,12 @@ const RegisterPage = () => {
             <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
                 <h1 className="text-2xl font-semibold text-center">Register</h1>
                 <form onSubmit={handleSubmit} className="mt-4">
-                    <label htmlFor="Nome" className="block mb-2 font-medium text-gray-700">
-                        Nome
-                    </label>
-                    <input
-                        type="text"
-                        id="nome"
-                        name="nome"
-                        value={nome}
-                        onChange={handleNomeChange}
-                        className="w-full px-4 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                        required
-                    />
 
-                    <label htmlFor="email" className="block mt-3 mb-2 font-medium text-gray-700">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={email}
-                        onChange={handleEmailChange}
-                        className="w-full px-4 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                        required
-                    />
+                    <InputText required={true} message="Nome" placeholder="Nome" value={nome} onChange={handleNomeChange} />
 
-                    <label htmlFor="password" className="block mt-3 mb-2 font-medium text-gray-700">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        className="w-full px-4 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                        required
-                    />
+                    <InputText required={true} message="Email" placeholder="Email" value={email} onChange={handleEmailChange} />
+
+                    <InputText required={true} message="Password" placeholder="Password" value={password} onChange={handlePasswordChange} />
 
                     <label htmlFor="nivel" className="block mt-3 mb-2 font-medium text-gray-700">
                         User Type
@@ -102,7 +82,7 @@ const RegisterPage = () => {
                         id="nivel"
                         name="nivel"
                         value={nivel}
-                        onChange={handleNivelChange}
+                        onChange={(e) => handleNivelChange(e.target.value)}
                         className="w-full px-4 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                     >
                         <option value="consumidor">Consumer</option>

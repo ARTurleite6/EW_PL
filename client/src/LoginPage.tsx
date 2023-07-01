@@ -1,11 +1,21 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { instance } from './App';
 
 const LoginPage: React.FC = () => {
+
+    const [cookies, setCookie, removeCookie] = useCookies(['jwtToken']);
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (cookies.jwtToken) {
+            //remove cookie
+            removeCookie('jwtToken', { path: '/' });
+        }
+    }, [cookies.jwtToken, navigate, removeCookie]);
 
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);

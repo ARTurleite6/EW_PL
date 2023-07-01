@@ -57,6 +57,13 @@ export interface Genere {
     ProcessInfo: string,
 }
 
+const REQUIRED_FIELDS = [
+    "UnitTitle",
+    "PreviousLoc",
+    "PhysLoc",
+    "ScopeContent",
+];
+
 const REPOSITORY_CODE = "UM-ADB";
 const COUNTRY_CODE = "PT";
 const UNIT_TITLE_PRE = "Inquirição de genere de ";
@@ -132,12 +139,20 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
     const handleUnitFinalDateChange = (date: Date) => {
         setActualUnitFinalDate(date);
         setNewGenere((prevGenere) => ({ ...prevGenere, UnitDateFinal: date }));
-        setNewGenere(newGenere);
     }
 
     const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
+        console.dir(username);
+        console.dir(newGenere.Username);
+
+        if (!REQUIRED_FIELDS.every((value) => {
+            return newGenere[value] !== "";
+        })) {
+            alert('Required fields were not given');
+            return;
+        }
 
         if (!genereEntry) {
             try {
@@ -213,7 +228,10 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
 
     return (
         <div className="container mx-auto p-4" >
-            <h2 className="text-2xl font-bold mb-4">Create Inquirição Genere</h2>
+            {
+                !genereEntry ? <h2 className="text-2xl font-bold mb-4">Create Inquirição Genere</h2> :
+                    <h2 className="text-2xl font-bold mb-4">Edit Inquirição Genere</h2>
+            }
 
             <form onSubmit={handleFormSubmit}>
                 <div className="mb-4">
@@ -237,6 +255,7 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
                     setNewGenere(auxGenere);
                 }
                 }
+                    required={true}
                     message={"UnitTitle"} placeholder={"Insert the required title (person/name of people)"} value={newGenere.UnitTitle} />
 
                 <InputText onChange={(value) => newGenere.AlternativeTitle = value}
@@ -270,11 +289,11 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
 
                 <InputText value={newGenere.PhysTec ?? ""} placeholder={"Insert Physical characteristics and technical requirements of the document"} message={"Physical characteristics and technical requirements"} onChange={(value) => newGenere.PhysLoc = value} />
 
-                <InputText message={"Previous Location"} value={newGenere.PreviousLoc} placeholder={"Insert the previous location of the document"} onChange={(value) => newGenere.PreviousLoc = value} />
+                <InputText message={"Previous Location"} required={true} value={newGenere.PreviousLoc} placeholder={"Insert the previous location of the document"} onChange={(value) => newGenere.PreviousLoc = value} />
 
-                <InputText message={"Physical Location"} value={newGenere.PhysLoc} placeholder={"Insert the physical location of the document"} onChange={(value) => newGenere.PhysLoc = value} />
+                <InputText message={"Physical Location"} required={true} value={newGenere.PhysLoc} placeholder={"Insert the physical location of the document"} onChange={(value) => newGenere.PhysLoc = value} />
 
-                <InputText message={"Scope and Content"} value={newGenere.ScopeContent} placeholder="Insert Scope and Content" onChange={(value) => newGenere.ScopeContent = value} />
+                <InputText message={"Scope and Content"} required={true} value={newGenere.ScopeContent} placeholder="Insert Scope and Content" onChange={(value) => newGenere.ScopeContent = value} />
 
                 <Checkbox message={"Allow Textual Content Inference"} checked={newGenere.AllowTextualContentInference} onChange={(value) => { newGenere.AllowTextualContentInference = value as boolean; setNewGenere(newGenere); }} />
 
@@ -307,6 +326,8 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
                     </Link>
                 </div>
             </form>
+
+            <p className={"mt-8"}>* - Required Field</p>
 
         </div >
     );

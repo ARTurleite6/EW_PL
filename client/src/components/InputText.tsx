@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const InputText = ({ onChange, value, message, placeholder }:
-    { onChange: (value: string) => void, value: string, message: string, placeholder: string }) => {
+const InputText = ({ onChange, value, message, placeholder, required }:
+    { onChange: (value: string) => void, value: string, message: string, placeholder: string, required?: boolean }) => {
 
     const [valueState, setValueState] = useState(value);
 
@@ -13,7 +13,7 @@ const InputText = ({ onChange, value, message, placeholder }:
     return (
         <div className="mb-4">
             <label className="block text-gray-700 font-bold mb-2" htmlFor="dimensions">
-                {message}
+                {message} <span className="text-red-500">{required ? "*" : ""}</span>
             </label>
             <input
                 type="text"

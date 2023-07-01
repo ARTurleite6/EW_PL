@@ -112,10 +112,12 @@ const CreateGenesePage = () => {
 
         setNewGenese(newGenese);
 
+        console.dir("username =", username);
+
     }, [cookies, username, newGenese, navigate]);
 
     return (
-        <GenereFormComponent username={username} />
+        <GenereFormComponent username={jwt<JwtToken>(cookies.jwtToken).user.name} />
     );
 }
 

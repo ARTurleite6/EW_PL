@@ -36,7 +36,7 @@ const EditGenesePage = () => {
 
     if (genese) {
         return (
-            <GenereFormComponent genereEntry={genese} username={username} />
+            <GenereFormComponent genereEntry={genese} username={jwt<JwtToken>(cookies.jwtToken).user.name} />
         );
     } else {
         return (
