@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Checkbox from "./components/Checkbox";
-import InputText from "./components/InputText";
 import { useCookies } from "react-cookie";
 import { JwtToken } from "./ProtectedRoute";
 import jwt from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
-import { instance } from "./App";
 import GenereFormComponent from "./components/GenereFormComponent";
 
 enum EntityType {
@@ -68,10 +63,6 @@ const CreateGenesePage = () => {
 
     const [username, setUsername] = useState<string>("");
 
-    const [actualUnitInitialDate, setActualUnitInitialDate] = useState<Date>(new Date());
-
-    const [actualUnitFinalDate, setActualUnitFinalDate] = useState<Date>(new Date());
-
     const [newGenese, setNewGenese] = React.useState<Genese>({
         EntityType: EntityType.PessoaSingular,
         UnitTitle: "",
@@ -103,6 +94,9 @@ const CreateGenesePage = () => {
 
     useEffect(() => {
         const token = cookies.jwtToken;
+        if (!token) {
+            navigate('/login');
+        }
 
         const payload = jwt<JwtToken>(token);
 
@@ -118,7 +112,7 @@ const CreateGenesePage = () => {
 
         setNewGenese(newGenese);
 
-    }, [cookies, username, newGenese]);
+    }, [cookies, username, newGenese, navigate]);
 
     return (
         <GenereFormComponent username={username} />

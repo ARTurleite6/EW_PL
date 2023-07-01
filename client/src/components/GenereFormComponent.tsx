@@ -4,6 +4,7 @@ import { instance } from "../App";
 import InputText from "./InputText";
 import Checkbox from "./Checkbox";
 import DatePicker from 'react-datepicker';
+import AddRelationComponent, { Relation } from "./AddRelationComponent";
 
 enum EntityType {
     PessoaColetiva = "Pessoa Coletiva",
@@ -11,8 +12,14 @@ enum EntityType {
     PessoaSingular = "Pessoa Singular",
 };
 
+interface Relationship {
+    ID: number,
+    Kinship: string,
+}
+
 export interface Genere {
     [key: string]: any,
+    Relationships: Relationship[],
     UnitTitle: string,
     EntityType: EntityType,
     DescriptionLevel: string;
@@ -58,6 +65,7 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
     const navigate = useNavigate();
 
     const [newGenere, setNewGenere] = useState<Genere>(genereEntry ?? {
+        Relationships: [],
         EntityType: EntityType.PessoaSingular,
         UnitTitle: "",
         DescriptionLevel: "DC",
@@ -90,9 +98,25 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
 
     const [actualUnitFinalDate, setActualUnitFinalDate] = useState<Date>(new Date(newGenere.UnitDateFinal));
 
+    const [relations, setRelations] = useState<Relation[]>([]);
+
     useEffect(() => {
-        console.log(genereEntry);
+
+
         if (genereEntry) {
+
+            const booleanCamps = ['UnitDateInitialCertainty', 'UnitDateFinalCertainty', 'AllowUnitDatesInference', 'AllowExtentsInference', 'AllowTextualContentInference', 'ApplySelectionTable', 'Revised', 'Published', 'Available', 'Highlighted'];
+
+            for (const camp of booleanCamps) {
+                const booleanValue = genereEntry[camp];
+
+                if (booleanValue === "False" || booleanValue === "false") {
+                    genereEntry[camp] = false;
+                } else if (booleanValue === "True" || booleanValue === "true") {
+                    genereEntry[camp] = true;
+                }
+            }
+
             genereEntry.ProcessInfoDate = new Date();
             genereEntry.ProcessInfo = "Registo atualizado pelo utilizador " + username;
 
@@ -102,59 +126,94 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
 
     const handleUnitInitialDateChange = (date: Date) => {
         setActualUnitInitialDate(date);
-        newGenere.UnitDateInitial = date;
-        setNewGenere(newGenere);
+        setNewGenere((prevGenere) => ({ ...prevGenere, UnitDateInitial: date }));
     }
 
     const handleUnitFinalDateChange = (date: Date) => {
         setActualUnitFinalDate(date);
-        newGenere.UnitDateFinal = date;
+        setNewGenere((prevGenere) => ({ ...prevGenere, UnitDateFinal: date }));
         setNewGenere(newGenere);
     }
 
     const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        console.dir(newGenere);
 
         if (!genereEntry) {
             try {
-                const response = await instance.post('http://localhost:7777/api/genesis', newGenere);
+                let auxGenere = {
+                    ...newGenere,
+                };
+                console.dir('Relations, form = ', relations);
+                if (relations.length > 0) {
+                    auxGenere.RelatedMaterial = "Serie de inquiricoes de genere: ";
+                    for (const relation of relations) {
+                        auxGenere.RelatedMaterial += " " + relation.Name + ", " + relation.Kinship + ". Proc." + relation.UnitId.toString() + ".";
+                    }
 
-                console.dir(response);
+                    auxGenere.Relationships = relations.map((value) => ({ ID: value.UnitId, Kinship: value.Kinship }));
 
-                console.log('entry inserted sucessfully');
+                    console.log(auxGenere.RelatedMaterial);
+                    setNewGenere(auxGenere);
+                } else {
+                    auxGenere.RelatedMaterial = "";
+                    auxGenere.Relationships = [];
+                }
+                console.dir(auxGenere.Relationships);
+
+                const response = await instance.post('http://localhost:7777/api/genesis', auxGenere);
+
+                alert('Entry inserted sucessfully');
 
                 const createGenese = response.data;
 
                 navigate('/genesis/' + createGenese.UnitId);
 
             } catch (error) {
-                console.dir(error);
+                alert('Ocurred an error when creating the entry');
             }
         } else {
             try {
-                const response = await instance.put('http://localhost:7777/api/genesis/' + genereEntry.UnitId, newGenere);
+                let auxGenere = {
+                    ...newGenere,
+                }
+                console.dir('Relations, form = ', relations);
+                if (relations.length > 0) {
+                    auxGenere.RelatedMaterial = "Serie de inquiricoes de genere:";
+                    for (const relation of relations) {
+                        auxGenere.RelatedMaterial += " " + relation.Name + ", " + relation.Kinship + ". Proc." + relation.UnitId.toString() + ".";
+                    }
 
-                const genere = response.data;
+                    auxGenere.Relationships = relations.map((value) => ({ ID: value.UnitId, Kinship: value.Kinship }));
+                    console.log(auxGenere.RelatedMaterial);
+                } else {
+                    auxGenere.RelatedMaterial = "";
+                    auxGenere.Relationships = [];
+                }
 
-                console.log('entry updated sucessfully');
-                navigate('/genesis/' + genere.UnitId);
+                console.dir(auxGenere.Relationships);
+                const response = await instance.put('http://localhost:7777/api/genesis/' + genereEntry.UnitId, auxGenere);
+
+                alert('Entry updated sucessfully');
+                navigate('/genesis/' + auxGenere.UnitId);
             } catch (error) {
-                console.dir(error);
+                alert('Ocurred an error when updating the entry');
             }
         }
     }
 
     const handleFormChange = (e: React.ChangeEvent<HTMLSelectElement>, field: string) => {
         e.preventDefault();
-        newGenere[field] = e.target.value;
-        setNewGenere(newGenere);
+        const auxGenere = {
+            ...newGenere,
+            field: e.target.value
+        }
+        setNewGenere(auxGenere);
     }
 
     return (
         <div className="container mx-auto p-4" >
-            <h2 className="text-2xl font-bold mb-4">Create Genese</h2>
+            <h2 className="text-2xl font-bold mb-4">Create Inquirição Genere</h2>
 
             <form onSubmit={handleFormSubmit}>
                 <div className="mb-4">
@@ -170,7 +229,14 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
                     </select>
                 </div>
 
-                <InputText onChange={(value) => newGenere.UnitTitle = UNIT_TITLE_PRE + value}
+                <InputText onChange={(value) => {
+                    const auxGenere = {
+                        ...newGenere,
+                        UnitTitle: UNIT_TITLE_PRE + value,
+                    }
+                    setNewGenere(auxGenere);
+                }
+                }
                     message={"UnitTitle"} placeholder={"Insert the required title (person/name of people)"} value={newGenere.UnitTitle} />
 
                 <InputText onChange={(value) => newGenere.AlternativeTitle = value}
@@ -208,7 +274,7 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
 
                 <InputText message={"Physical Location"} value={newGenere.PhysLoc} placeholder={"Insert the physical location of the document"} onChange={(value) => newGenere.PhysLoc = value} />
 
-                <InputText message={"Scope and Content"} value={newGenere.Scopecontent} placeholder="Insert Scope and Content" onChange={(value) => newGenere.ScopeContent = value} />
+                <InputText message={"Scope and Content"} value={newGenere.ScopeContent} placeholder="Insert Scope and Content" onChange={(value) => newGenere.ScopeContent = value} />
 
                 <Checkbox message={"Allow Textual Content Inference"} checked={newGenere.AllowTextualContentInference} onChange={(value) => { newGenere.AllowTextualContentInference = value as boolean; setNewGenere(newGenere); }} />
 
@@ -224,7 +290,7 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
 
                 <InputText message={"Notes"} placeholder={"Insert Notes"} value={newGenere.Notes} onChange={(value) => newGenere.Notes = value} />
 
-
+                <AddRelationComponent relationships={genereEntry?.Relations} onRelationsUpdate={(newRelations) => { setRelations([...newRelations]); }} />
 
                 <div className="flex justify-between">
                     <button

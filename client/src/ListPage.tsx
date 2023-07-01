@@ -91,12 +91,21 @@ const ListPage = () => {
         handlePageChange(1);
     };
 
+    const handleCreateEntry = () => {
+        navigator('/genesis/new');
+    };
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Inquirições de Genere</h1>
             <div className="flex flex-row justify-center">
-                <div className="ml-4 mb-4 w-9/12">
-                    <SearchBar message="Search Names (separated by semi-comma)" onSubmit={changeFilterValue} />
+                <div className="flex justify-between mb-4 w-9/12">
+                    <button className="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleCreateEntry}>
+                        New
+                    </button>
+                    <div className="w-full">
+                        <SearchBar message="Search Names (separated by semi-comma)" onSubmit={changeFilterValue} />
+                    </div>
                 </div>
                 <div className="align-middle ml-20">
                     <PageCountFilter handlePageChange={setLimitPage} />

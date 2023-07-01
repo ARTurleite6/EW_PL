@@ -5,6 +5,11 @@ interface IGenesisMethods {
     fillIDValues(): void;
 }
 
+interface Relation {
+    ID: number,
+    Kinship: string,
+}
+
 const genesisSchema = new Schema<any, any, IGenesisMethods>({
     ID: {
         type: String,
@@ -447,7 +452,10 @@ const genesisSchema = new Schema<any, any, IGenesisMethods>({
         unique: false,
     },
     Relationships: {
-        type: [Number],
+        type: [{
+            ID: Number,
+            Kinship: String,
+        }],
         required: true,
         unique: false,
         default: [],

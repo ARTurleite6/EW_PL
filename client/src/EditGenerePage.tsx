@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { instance } from "./App";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { JwtToken } from "./ProtectedRoute";
 import jwt from 'jwt-decode';
 import GenereFormComponent, { Genere } from "./components/GenereFormComponent";
+import { useNavigate } from "react-router-dom";
 
 const EditGenesePage = () => {
 
+    const navigate = useNavigate();
     const { id } = useParams();
     const [genese, setGenese] = useState<Genere | null>(null);
 
@@ -24,10 +26,13 @@ const EditGenesePage = () => {
                 console.log(error);
             });
 
+        if (!cookies.jwtToken) {
+            navigate("/login");
+        }
         const payload = jwt<JwtToken>(cookies.jwtToken);
         setUsername(payload.user.name);
 
-    }, [id, cookies.jwtToken]);
+    }, [id, cookies.jwtToken, navigate]);
 
     if (genese) {
         return (
@@ -41,4 +46,3 @@ const EditGenesePage = () => {
 };
 
 export default EditGenesePage;
-

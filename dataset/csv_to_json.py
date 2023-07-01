@@ -4,11 +4,16 @@ import sys
 import re
 from typing import Any
 
-extractProcId_re = re.compile(r"Proc\.(\d+)")
+extractProcId_re = re.compile(r"[\w\s]+,\s*([\wãẽô\s]+)\.\s*Proc\.(\d+)")
 extractprocessonr_re = re.compile(r"processo n\.\º (\d+)")
 inquiricao_re = re.compile(r'^Inquirição de genere de (.*)$')
 names_re = re.compile(r"([A-Z][a-z]+)(?:\s+[A-Z][a-z]+)*")
 inside_parenthesis = re.compile(r"\((.*)\)")
+
+date_re = re.compile(r"(\d{2})/(\d{2})/(\d{4}) (\d{2}):(\d{2}):(\d{2})")
+
+def convert_date(date: str) -> str:
+    return date_re.sub(r"\3-\2-\1 \4:\5:\6", date)
 
 def get_my_name(entry: dict[str | Any, str | Any]) -> list[str]:
     campo_nomes = inquiricao_re.match(entry['UnitTitle'])
@@ -46,11 +51,15 @@ def get_my_name(entry: dict[str | Any, str | Any]) -> list[str]:
 def get_relationships(entry: dict[str | Any, str | Any]) -> list[int]:
     related_material = entry['RelatedMaterial']
 
+    relationships = []
+
     procIds = extractProcId_re.findall(related_material)
-    relationships = [int(id) for id in procIds]
+
+    for match in procIds:
+        relationships.append({ "ID": int(match[1]), "Kinship": match[0] })
 
     processos = extractprocessonr_re.findall(related_material)
-    relationships += [ int(id) for id in processos ]
+    relationships += [ {"ID": int(id), "Kinship": ""} for id in processos ]
 
     return relationships
 
@@ -63,6 +72,8 @@ def main():
         return
     out_file = match.group(1) + ".json"
     entries = list()
+
+    date_entries_to_convert = ['Created', 'ProcessInfoDate']
 
     with open(filepath, "r") as file:
         csv_reader = csv.DictReader(file, delimiter=";")
@@ -79,7 +90,8 @@ def main():
             entry['UnitId'] = int(entry['UnitId'])
             entries.append(entry)
 
-
+            for date_entry in date_entries_to_convert:
+                entry[date_entry] = convert_date(entry[date_entry])
 
     with open(out_file, 'w') as file:
         json_string = json.dumps(entries)

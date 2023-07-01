@@ -12,18 +12,8 @@ export async function createGenere(genese: Genesis): Promise<Genesis> {
 }
 
 export async function updateGenere(genere: Genesis): Promise<Genesis> {
-
-    const findGenere = await GenesisModel.findOne({ UnitId: genere.UnitId }).exec();
-
     console.dir(genere);
-
-    if (!findGenere) {
-        throw new Error("Genere not found");
-    }
-
-    const newGenere = new GenesisModel(genere);
-
-    return await newGenere.save();
+    return await GenesisModel.updateOne({ UnitId: genere.UnitId }, genere).exec();
 }
 
 export async function getAllGeneses(filterOptions: FilterQuery<Genesis> & { Name?: string }): Promise<Genesis[]> {
@@ -93,7 +83,7 @@ export async function getGenese(id: number): Promise<Genesis | undefined> {
         {
             $lookup: {
                 from: "geneses",
-                localField: "Relationships",
+                localField: "Relationships.ID",
                 foreignField: "UnitId",
                 as: "Relations",
                 pipeline: [
@@ -106,6 +96,32 @@ export async function getGenese(id: number): Promise<Genesis | undefined> {
                 ],
             },
         },
+        {
+            $unwind: {
+                path: "$Relations",
+                preserveNullAndEmptyArrays: true,
+            }
+        },
+        {
+            $addFields: {
+                "Relations.Kinship": "$Relationships.Kinship",
+            }
+        },
+        {
+            $group: {
+                _id: "$_id",
+                data: { $first: "$$ROOT" },
+                Relations: { $push: "$Relations" },
+            }
+        },
+        //now unwrap the data
+        {
+            $replaceRoot: {
+                newRoot: {
+                    $mergeObjects: ["$data", { Relations: "$Relations" }]
+                }
+            }
+        },
     ]).exec();
 
 
@@ -114,6 +130,12 @@ export async function getGenese(id: number): Promise<Genesis | undefined> {
         return undefined;
     }
 
-    return response[0];
+    const genese = response[0];
+
+    if (genese.Relations.length == 1 && Object.keys(genese.Relations[0]).length == 0) {
+        genese.Relations = [];
+    }
+
+    return genese;
 }
 
