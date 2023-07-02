@@ -95,8 +95,8 @@ Caso a autenticação seja válida é criado um token que contém id do user, em
 
 <h3>8.Registo</h3>
     Para registar um utilizador na base de dados CONTINUA
-    <img title="Registo" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/registo.png" width="200" 
-     height="200">
+    <img title="Registo" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/registo.png" width="400" 
+     height="400">
 <h1></h1>
     
 
