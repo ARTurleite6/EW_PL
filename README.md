@@ -66,7 +66,7 @@ O grupo organizou o trabalho em etapas,após analisar os requisitos, para conseg
 | /api/authentication/register    | POST     |Guarda um utilizador novo na base de dados |
 | /api/authentication/login | POST |Valida dados de autenticação |
 | /api/genesis/:id | GET|Rota para obter uma entrada na base de dados com o id fornecido |
-| /api/genesis | GET,POST |GET->Lista de Inquisições;             Post -> Cria uma inquisição nova |
+| /api/genesis | GET,POST |GET->Lista de Inquisições;             POST -> Cria uma inquisição nova |
 
 <h1></h1>
     
