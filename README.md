@@ -96,7 +96,10 @@ O grupo optou por mostrar apenas esta informação,pois achou que seria a inform
 <h4>
         Página de Inquirição (/genesis/:id)
 </h4>
-Na página de inquirição, é possível observar todos os campos daquele documento, inclusive as relações, para as quais existe um link para navegar para a mesma.Para os administradores é possível editar um registo.-
+Na página de inquirição, é possível observar todos os campos daquele documento, inclusive as relações, para as quais existe um link para navegar para a mesma.Para os administradores é possível editar um registo, ou até mesmo eliminá-lo.
+
+ <img title="Inq Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/inqpage.png" width="1000" >
+    <h2></h2>
     
 <h4>
         Página de adição de registo (/genesis/new)
