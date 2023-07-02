@@ -104,7 +104,9 @@ Na página de inquirição, é possível observar todos os campos daquele docume
 <h4>
         Página de adição de registo (/genesis/new)
 </h4>
-Como oprópio nome indica, nesta página é possível criar um registo(apenas para Administradores)
+Como oprópio nome indica, nesta página é possível criar um registo(apenas para Administradores), inserindo os diversos campos(alguns obrigatórios, outros facultativos).
+<img title="Inq Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/createpage.png" width="1000" >
+    <h2></h2>
     
 <h4>
         Página de edição de registo (/genesis/edit/:id)
