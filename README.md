@@ -62,10 +62,10 @@ O grupo organizou o trabalho em etapas, para conseguir trabalhar de uma forma ma
 
 | Rota | Métodos | Descrição |
 | -------- | -------- | -------- |
-| /api/authentication/register    | POST     | |
-| /api/authentication/login | POST | |
+| /api/authentication/register    | POST     |Guarda um utilizador novo na base de dados |
+| /api/authentication/login | POST |Valida dados de autenticação |
 | /api/genesis/:id | GET|Rota para obter uma entrada na base de dados com o id fornecido |
-| /api/genesis | GET,POST | |
+| /api/genesis | GET,POST |GET->Lista de Inquisições;             Post -> Cria uma inquisição nova |
 
 <h1></h1>
     
@@ -73,7 +73,7 @@ O grupo organizou o trabalho em etapas, para conseguir trabalhar de uma forma ma
 
 | Rota |  Descrição |
 | -------- |  -------- |
-| /    | Rota default, que apresenta  |
+| /    | Rota default, que apresenta a lista de todas as inquisições |
 | /login |Rota que apresenta a página de Login  |
 | /register |Rota que apresenta a página de Registo  |
 | /genesis/edit/:id |Rota que mosta a página de edição de um registo na Base de dados  |
