@@ -48,7 +48,7 @@ O grupo organizou o trabalho em etapas,após analisar os requisitos, para conseg
      Após serem disponibilizados os temas possíveis de serem escolhidos para a realização do trabalho, e após analisar detalhadamente cada um deles bem como os respetivos requisitos, o grupo optou pela proposta Nº 2-Inquirições de Génere. Este pareceu-nos o tema mais interessante, visto que ainda não conhecíamos as Inquirições de Génere, nem a forma como funcionavam.
 <h1></h1>
 <h3>2.Análise do dataset</h3>
-     O grupo analisou o dataset para verificar se haviam inconsistências.O dataset fornecido era um ficheiro CSV, então criou-se um script em python, com a finalidade de converter o ficheiro original num ficheiro JSON, para que conseguir importar o dataset no MongoDB.No dataset final(JSON) é também adicionada uma coluna que contém um array com os ids de cada uma das pessoas com as quais aquela pessoa tem relação (campo "RelatedMaterial").
+     O grupo analisou o dataset para verificar se haviam inconsistências.O dataset fornecido era um ficheiro CSV, então criou-se um script em python(dataset/csv_to_json.csv), com a finalidade de converter o ficheiro original num ficheiro JSON, para que conseguir importar o dataset no MongoDB.No dataset final(JSON) é também adicionada uma coluna que contém um array com os ids de cada uma das pessoas com as quais aquela pessoa tem relação (campo "RelatedMaterial").
     <h1></h1>
 
 <h3>3.Importação do dataset no MongoDB</h3>
