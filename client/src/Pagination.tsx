@@ -92,7 +92,7 @@ const Pagination = (props: { onPageChange: (selectedPage: number | string) => vo
 
         <nav aria-label="Page navigation example">
             <ul className="inline-flex -space-x-px">
-                <li onClick={onPrev} className={classnames("px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white", {
+                <li onClick={onPrev} className={classnames("px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer", {
                     disabled: currentPage === 1
                 })}>
                     Previous
@@ -101,7 +101,7 @@ const Pagination = (props: { onPageChange: (selectedPage: number | string) => vo
                 {paginationRange.map(pageNumber => {
                     // If the pageItem is a DOT, render the DOTS unicode character
                     if (pageNumber === '...') {
-                        return (<li key={pageNumber} className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        return (<li key={pageNumber} className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer">
                             ...
                         </li>);
                     }
@@ -110,7 +110,7 @@ const Pagination = (props: { onPageChange: (selectedPage: number | string) => vo
                         // Render our Page Pills
                         return (
                             <li key={pageNumber}
-                                className={classnames("px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white", {
+                                className={classnames("px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer", {
                                     selected: pageNumber === currentPage
                                 })}
                                 onClick={() => onPageChange(pageNumber)}
@@ -122,7 +122,7 @@ const Pagination = (props: { onPageChange: (selectedPage: number | string) => vo
                         // Render our Page Pills
                         return (
                             <li key={pageNumber}
-                                className={classnames("px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white", {
+                                className={classnames("px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white cursor-pointer", {
                                     selected: pageNumber === currentPage
                                 })}
                                 onClick={() => onPageChange(pageNumber)}
@@ -132,7 +132,7 @@ const Pagination = (props: { onPageChange: (selectedPage: number | string) => vo
                         );
                     }
                 })}
-                <li onClick={onNext} className={classnames("px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white", {
+                <li onClick={onNext} className={classnames("px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer", {
                     disabled: currentPage === lastPage
                 })}>
                     Next

@@ -1,9 +1,10 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { instance } from "./App";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import jwtDecode from "jwt-decode";
 import DateRangeComponent from "./components/DateRangeComponent";
+import LogoutComponent from "./components/LogoutComponent";
 
 type TokenPayload = {
     exp: number,
@@ -123,36 +124,56 @@ const GenesePage = () => {
 
     }
 
+    const handleDeleteGenese = async () => {
+        try {
+            await instance.delete(`http://localhost:7777/api/genesis/${id}`);
+            alert('Inquirição de Genere Deleted sucessfully');
+            navigator('/');
+        } catch (error) {
+            alert('Error Deleting Inquirição de Genere');
+            console.log(error);
+        }
+    }
+
 
     if (genese) {
         return (
-            <div className="container mx-auto">
-                <h1 className="text-2xl font-bold mb-4">{genese.UnitTitle}</h1>
-                <h2 className="text-xl font-bold mb-2">Description Level</h2>
-                <p className="mb-4">Composed Document</p>
-                <h2 className="text-xl font-bold mb-2">Reference Code</h2>
-                <p className="mb-4">{genese.CompleteUnitId}</p>
-                <h2 className="text-xl font-bold mb-2">Production Dates</h2>
-                <DateRangeComponent initialDate={genese.UnitDateInitial} finalDate={genese.UnitDateFinal}
-                    initialDateCertainty={genese.UnitDateInitialCertainty} finalDateCertainty={genese.UnitDateFinalCertainty} />
-                <h2 className="text-xl font-bold mb-2">Scope and Content</h2>
-                <p className="mb-4">{genese.ScopeContent}</p>
-                <h2 className="text-xl font-bold mb-2">Description physical location</h2>
-                <p className="mb-4">{genese.PhysLoc}</p>
-                <h2 className="text-xl font-bold mb-2">Previous location</h2>
-                <p className="mb-4">{genese.PreviousLoc}</p>
-                {physicalTech()}
-                {relatedMaterial()}
-                {renderRelationships()}
-                {isAdmin && (
-                    <button onClick={() => navigator(`/genesis/edit/${genese.UnitId}`)} className="block mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
-                        Edit
-                    </button>
-                )}
-                <Link to="/" className="block mt-4 text-blue-600 hover:underline">
-                    Return To List
-                </Link>
-            </div>
+            <LogoutComponent>
+                <div className="container mx-auto">
+                    <h1 className="text-2xl font-bold mb-4">{genese.UnitTitle}</h1>
+                    <div className="box-border border-2 border-black p-2">
+                        <h2 className="text-xl font-bold mb-2">Description Level</h2>
+                        <p className="mb-4">Composed Document</p>
+                        <h2 className="text-xl font-bold mb-2">Reference Code</h2>
+                        <p className="mb-4">{genese.CompleteUnitId}</p>
+                        <h2 className="text-xl font-bold mb-2">Production Dates</h2>
+                        <DateRangeComponent initialDate={genese.UnitDateInitial} finalDate={genese.UnitDateFinal}
+                            initialDateCertainty={genese.UnitDateInitialCertainty} finalDateCertainty={genese.UnitDateFinalCertainty} />
+                        <h2 className="text-xl font-bold mb-2">Scope and Content</h2>
+                        <p className="mb-4">{genese.ScopeContent}</p>
+                        <h2 className="text-xl font-bold mb-2">Description physical location</h2>
+                        <p className="mb-4">{genese.PhysLoc}</p>
+                        <h2 className="text-xl font-bold mb-2">Previous location</h2>
+                        <p className="mb-4">{genese.PreviousLoc}</p>
+                        {physicalTech()}
+                        {relatedMaterial()}
+                        {renderRelationships()}
+                        {isAdmin && (
+                            <div className="flex flex-row">
+                                <button onClick={() => navigator(`/genesis/edit/${genese.UnitId}`)} className="block mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                                    Edit
+                                </button>
+                                <button onClick={handleDeleteGenese} className="block ml-8 mt-4 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">
+                                    Delete
+                                </button>
+                            </div>
+                        )}
+                        <Link to="/" className="block mt-4 text-blue-600 hover:underline">
+                            Return To List
+                        </Link>
+                    </div>
+                </div>
+            </LogoutComponent>
         );
     } else {
         return (

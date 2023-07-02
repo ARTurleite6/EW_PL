@@ -19,32 +19,26 @@ export const instance = axios.create({
 const App = () => {
     return (
         <BrowserRouter>
-            <div>
-                <header>
-                    <Link to='/login'>Logout</Link>
-                </header>
-
-                <Routes>
-                    <Route path='/' element={
-                        <ProtectedRoute>
-                            <ListPage />
-                        </ProtectedRoute>
-                    } />
-                    <Route path='/login' element={<LoginPage />} />
-                    <Route path='/register' element={<RegisterPage />} />
-                    <Route path='/genesis/edit/:id' element={<EditGenesePage />} />
-                    <Route path='/genesis/new' element={
-                        <ProtectedRoute role='administrador'>
-                            <CreateGenesePage />
-                        </ProtectedRoute>
-                    } />
-                    <Route path='/genesis/:id' element={
-                        <ProtectedRoute>
-                            <GenesePage />
-                        </ProtectedRoute>
-                    } />
-                </Routes>
-            </div>
+            <Routes>
+                <Route path='/' element={
+                    <ProtectedRoute>
+                        <ListPage />
+                    </ProtectedRoute>
+                } />
+                <Route path='/login' element={<LoginPage />} />
+                <Route path='/register' element={<RegisterPage />} />
+                <Route path='/genesis/edit/:id' element={<EditGenesePage />} />
+                <Route path='/genesis/new' element={
+                    <ProtectedRoute role='administrador'>
+                        <CreateGenesePage />
+                    </ProtectedRoute>
+                } />
+                <Route path='/genesis/:id' element={
+                    <ProtectedRoute>
+                        <GenesePage />
+                    </ProtectedRoute>
+                } />
+            </Routes>
         </BrowserRouter>
     )
 };

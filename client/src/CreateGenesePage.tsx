@@ -5,6 +5,7 @@ import { JwtToken } from "./ProtectedRoute";
 import jwt from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
 import GenereFormComponent from "./components/GenereFormComponent";
+import LogoutComponent from "./components/LogoutComponent";
 
 enum EntityType {
     PessoaColetiva = "Pessoa Coletiva",
@@ -113,7 +114,9 @@ const CreateGenesePage = () => {
     }, [cookies, username, newGenese, navigate]);
 
     return (
-        <GenereFormComponent username={jwt<JwtToken>(cookies.jwtToken).user.name} />
+        <LogoutComponent>
+            <GenereFormComponent username={jwt<JwtToken>(cookies.jwtToken).user.name} />
+        </ LogoutComponent>
     );
 }
 

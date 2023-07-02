@@ -6,6 +6,7 @@ import { JwtToken } from "./ProtectedRoute";
 import jwt from 'jwt-decode';
 import GenereFormComponent, { Genere } from "./components/GenereFormComponent";
 import { useNavigate } from "react-router-dom";
+import LogoutComponent from "./components/LogoutComponent";
 
 const EditGenesePage = () => {
 
@@ -36,7 +37,9 @@ const EditGenesePage = () => {
 
     if (genese) {
         return (
-            <GenereFormComponent genereEntry={genese} username={jwt<JwtToken>(cookies.jwtToken).user.name} />
+            <LogoutComponent>
+                <GenereFormComponent genereEntry={genese} username={jwt<JwtToken>(cookies.jwtToken).user.name} />
+            </LogoutComponent>
         );
     } else {
         return (

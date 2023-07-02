@@ -75,21 +75,6 @@ const RegisterPage = () => {
 
                     <InputText type={"password"} required={true} message="Password" placeholder="Password" value={password} onChange={handlePasswordChange} />
 
-                    <label htmlFor="nivel" className="block mt-3 mb-2 font-medium text-gray-700">
-                        User Type
-                    </label>
-                    <select
-                        id="nivel"
-                        name="nivel"
-                        value={nivel}
-                        onChange={(e) => handleNivelChange(e.target.value)}
-                        className="w-full px-4 py-2 rounded-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                    >
-                        <option value="consumidor">Consumer</option>
-                        <option value="administrador">Administrator</option>
-                    </select>
-
-
                     <button
                         type="submit"
                         className="w-full mt-6 py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

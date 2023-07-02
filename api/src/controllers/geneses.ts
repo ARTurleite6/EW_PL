@@ -2,6 +2,10 @@ import { FilterQuery } from "mongoose";
 import { Genesis, fillIDValues } from "../models/genesis";
 import { GenesisModel } from "../models/genesis";
 
+export async function getLocations(): Promise<string[]> {
+    return await GenesisModel.distinct("PhysLoc").exec();
+}
+
 export async function createGenere(genese: Genesis): Promise<Genesis> {
     genese = await fillIDValues(genese);
 
@@ -38,6 +42,7 @@ export async function getAllGeneses(filterOptions: FilterQuery<Genesis> & { Name
                 UnitDateInitial: true,
                 UnitDateFinal: true,
                 Names: true,
+                PhysLoc: true,
             },
         },
         {

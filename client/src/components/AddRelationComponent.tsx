@@ -3,6 +3,8 @@ import { instance } from "../App";
 
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
+import { ReactComponent as CloseSVG } from "../assets/cross-svgrepo-com.svg";
+
 interface SearchItem {
     id: number,
     name: string,
@@ -12,7 +14,7 @@ interface Kinships {
     [key: string]: string,
 }
 
-const kindships: Kinships = {
+const kinships: Kinships = {
     Pai: "pai",
     Avô: "avô",
     Bisavô: "bisavô",
@@ -45,6 +47,8 @@ const AddRelationComponent = ({ relationships, onRelationsUpdate }: { relationsh
 
     const [initialized, setInitialized] = useState(false);
     const [generes, setGeneres] = useState<SearchItem[]>([]);
+
+    const [currentSearchString, setCurrentSearchString] = useState("");
 
     const [relations, setRelations] = useState<Relation[]>([]);
 
@@ -158,6 +162,7 @@ const AddRelationComponent = ({ relationships, onRelationsUpdate }: { relationsh
         const newRelations = relations.filter((value) => value.UnitId !== relation.UnitId);
         setRelations(newRelations);
         onRelationsUpdate(newRelations);
+        setCurrentSearchString("");
     }
 
     return (
@@ -183,6 +188,7 @@ const AddRelationComponent = ({ relationships, onRelationsUpdate }: { relationsh
                                     onFocus={handleOnFocus}
                                     autoFocus
                                     formatResult={formatResult}
+                                    inputSearchString={currentSearchString}
                                 />
                             </td>
                             <td>
@@ -190,9 +196,9 @@ const AddRelationComponent = ({ relationships, onRelationsUpdate }: { relationsh
                                     className="w-full border border-gray-300 rounded px-3 py-2"
                                 >
                                     {
-                                        Object.keys(kindships).map((key) => {
-                                            return <option key={key} value={kindships[key]}
-                                            >{kindships[key]}</option>
+                                        Object.keys(kinships).map((key) => {
+                                            return <option key={key} value={kinships[key]}
+                                            >{kinships[key]}</option>
                                         })
                                     }
                                 </select>
@@ -213,10 +219,10 @@ const AddRelationComponent = ({ relationships, onRelationsUpdate }: { relationsh
                         <li key={index} className={"flex justify-between"}>
                             {<p className={"mt-2"}>{relation.Name} - {relation.Kinship}</p>}
                             <button
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded "
                                 onClick={(e) => { e.preventDefault(); handleRemove(relation) }}
-                            >
-                                Remove
+                                className="w-[30px] h-[30px]">
+                            
+                                <CloseSVG />
                             </button>
                         </li>
                     ))}

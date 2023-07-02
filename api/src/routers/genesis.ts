@@ -1,7 +1,29 @@
 import { Router } from 'express'
-import { createGenere, getAllGeneses, getGenese, updateGenere } from '../controllers/geneses';
+import { createGenere, getAllGeneses, getGenese, getLocations, updateGenere } from '../controllers/geneses';
+import { GenesisModel } from '../models/genesis';
 
 export const indexRouter = Router();
+
+indexRouter.get('/locations', async (req, res) => {
+    try {
+        const locations = await getLocations();
+        res.status(200).json(locations);
+    } catch (error) {
+        res.status(404).json('No Locations Found');
+    }
+});
+
+indexRouter.delete('/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const genese = await GenesisModel.deleteOne({ UnitId: id }).exec();
+        res.status(200).json(genese);
+    } catch (error) {
+        console.dir(error);
+        res.status(404).json('No Genesis Found');
+    }
+});
 
 indexRouter.get('/:id', async (req, res) => {
     try {
