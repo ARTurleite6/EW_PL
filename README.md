@@ -129,7 +129,7 @@ Caso a autenticação seja válida é criado um token que contém id do user, em
 
 <h1></h1>
 <h3>8.Registo</h3>
-    Para registar um utilizador na base de dados CONTINUA
+    Para registar um utilizador na base de dados é necessário inserir Nome, E-mail, Password e o tipo de Utilizador.
     <img title="Registo" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/registo.png" width="400" >
 <h1></h1>
     
