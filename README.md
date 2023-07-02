@@ -84,7 +84,7 @@ O grupo organizou o trabalho em etapas,após analisar os requisitos, para conseg
     
 <h3>6.Interface</h3>
 Para tornar o programa visualmente apelativo e fácil de utilizar, o grupo criou algumas páginas em PUG, para que os utilizadores consigam navegar facilmente entre páginas e consigam realizar as ações pretendidas.
-De seguida são apresentadas as páginas e uma breve explicação do Conteúdo das mesmas.
+De seguida são apresentadas as páginas e uma breve explicação do conteúdo das mesmas.
 <h4>
         Página Inicial (/)
 </h4>
@@ -104,7 +104,7 @@ Na página de inquirição, é possível observar todos os campos daquele docume
 <h4>
         Página de adição de registo (/genesis/new)
 </h4>
-Como oprópio nome indica, nesta página é possível criar um registo(apenas para Administradores), inserindo os diversos campos(alguns obrigatórios, outros facultativos).
+Como oprópio nome indica, nesta página é possível criar um registo(apenas para Administradores), inserindo os diversos campos(alguns obrigatórios, outros facultativos).É possível adicionar relações já existentes, que aparecem listadas.
 <img title="ADD Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/createpage.png" width="800" >
     <h2></h2>
     
