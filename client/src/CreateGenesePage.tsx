@@ -102,9 +102,6 @@ const CreateGenesePage = () => {
 
         const newUsername = payload.user.name;
 
-        console.dir(payload);
-        console.dir(newUsername);
-
         setUsername(newUsername);
 
         newGenese.Username = newUsername;
@@ -112,7 +109,6 @@ const CreateGenesePage = () => {
 
         setNewGenese(newGenese);
 
-        console.dir("username =", username);
 
     }, [cookies, username, newGenese, navigate]);
 

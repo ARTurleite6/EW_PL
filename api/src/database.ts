@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const MONGODB_URI = 'mongodb://localhost:27017/geneses'; // Replace with your MongoDB connection string
+const MONGODB_URI = 'mongodb://mongo:27017/geneses'; // Replace with your MongoDB connection string
 
 mongoose.connect(MONGODB_URI);
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const InputText = ({ onChange, value, message, placeholder, required }:
-    { onChange: (value: string) => void, value: string, message: string, placeholder: string, required?: boolean }) => {
+const InputText = ({ onChange, value, message, placeholder, required, type }:
+    { onChange: (value: string) => void, value: string, message: string, placeholder: string, required?: boolean, type?: string }) => {
 
     const [valueState, setValueState] = useState(value);
 
@@ -16,9 +16,9 @@ const InputText = ({ onChange, value, message, placeholder, required }:
                 {message} <span className="text-red-500">{required ? "*" : ""}</span>
             </label>
             <input
-                type="text"
                 id={message}
                 name={message}
+                type={type ? type : "text"}
                 value={valueState}
                 placeholder={placeholder}
                 onChange={handleChange}

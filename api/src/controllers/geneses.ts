@@ -4,7 +4,6 @@ import { GenesisModel } from "../models/genesis";
 
 export async function createGenere(genese: Genesis): Promise<Genesis> {
     genese = await fillIDValues(genese);
-    console.dir(genese);
 
     const newGenese = new GenesisModel(genese);
 
@@ -12,7 +11,6 @@ export async function createGenere(genese: Genesis): Promise<Genesis> {
 }
 
 export async function updateGenere(genere: Genesis): Promise<Genesis> {
-    console.dir(genere);
     return await GenesisModel.updateOne({ UnitId: genere.UnitId }, genere).exec();
 }
 

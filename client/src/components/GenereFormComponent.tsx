@@ -144,8 +144,6 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
     const handleFormSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        console.dir(username);
-        console.dir(newGenere.Username);
 
         if (!REQUIRED_FIELDS.every((value) => {
             return newGenere[value] !== "";
@@ -159,7 +157,6 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
                 let auxGenere = {
                     ...newGenere,
                 };
-                console.dir('Relations, form = ', relations);
                 if (relations.length > 0) {
                     auxGenere.RelatedMaterial = "Serie de inquiricoes de genere: ";
                     for (const relation of relations) {
@@ -174,7 +171,6 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
                     auxGenere.RelatedMaterial = "";
                     auxGenere.Relationships = [];
                 }
-                console.dir(auxGenere.Relationships);
 
                 const response = await instance.post('http://localhost:7777/api/genesis', auxGenere);
 
@@ -192,7 +188,6 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
                 let auxGenere = {
                     ...newGenere,
                 }
-                console.dir('Relations, form = ', relations);
                 if (relations.length > 0) {
                     auxGenere.RelatedMaterial = "Serie de inquiricoes de genere:";
                     for (const relation of relations) {
@@ -200,13 +195,11 @@ const GenereFormComponent = ({ genereEntry, username }: { genereEntry?: Genere, 
                     }
 
                     auxGenere.Relationships = relations.map((value) => ({ ID: value.UnitId, Kinship: value.Kinship }));
-                    console.log(auxGenere.RelatedMaterial);
                 } else {
                     auxGenere.RelatedMaterial = "";
                     auxGenere.Relationships = [];
                 }
 
-                console.dir(auxGenere.Relationships);
                 const response = await instance.put('http://localhost:7777/api/genesis/' + genereEntry.UnitId, auxGenere);
 
                 alert('Entry updated sucessfully');

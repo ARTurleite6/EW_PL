@@ -74,7 +74,6 @@ const GenesePage = () => {
 
     const renderRelationships = () => {
         if (relationships && relationships.length > 0) {
-            console.dir(relationships);
             return (
                 <div>
                     <h2 className="text-xl font-bold mb-2">Links to Related Materials:</h2>

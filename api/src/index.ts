@@ -28,8 +28,6 @@ app.use(passport.initialize());
 const cookieExtractor = (req: express.Request) => {
     let jwt = null;
 
-    console.dir(req.cookies);
-
     if (req && req.cookies) {
         jwt = req.cookies.jwtToken;
     }

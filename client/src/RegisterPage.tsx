@@ -53,7 +53,7 @@ const RegisterPage = () => {
             console.log('Register form submitted!');
             console.log('Email:', email);
             console.log('Password:', password);
-            console.log('Register sucessful');
+            alert('Register sucessful');
         } catch (error) {
             console.dir(error);
         }
@@ -73,7 +73,7 @@ const RegisterPage = () => {
 
                     <InputText required={true} message="Email" placeholder="Email" value={email} onChange={handleEmailChange} />
 
-                    <InputText required={true} message="Password" placeholder="Password" value={password} onChange={handlePasswordChange} />
+                    <InputText type={"password"} required={true} message="Password" placeholder="Password" value={password} onChange={handlePasswordChange} />
 
                     <label htmlFor="nivel" className="block mt-3 mb-2 font-medium text-gray-700">
                         User Type

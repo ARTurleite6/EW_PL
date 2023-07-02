@@ -107,3 +107,5 @@ dist
 
 *.csv
 *.json
+
+db-files

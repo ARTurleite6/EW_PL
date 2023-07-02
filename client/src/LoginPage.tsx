@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
                 email,
                 password,
             });
-            console.log('login sucessful');
+            alert('Login sucessful');
             navigate('/');
         } catch (error) {
             console.log(error);
