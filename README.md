@@ -92,7 +92,7 @@ Após realizar o login, é apresentada a página inicial que está na figura aba
 Para além disto, existe uma barra de pesquisa através da qual é possível procurar por nome(s), ou até mesmo por intervalo de datas.
 O grupo optou por mostrar apenas esta informação,pois achou que seria a informação ,mais relevante.
     <img title="Init Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/initpage.png" width="600" 
-     height="600">
+     height="800">
 <h4>
         Página de Inquirição (/genesis/:id)
 </h4>
