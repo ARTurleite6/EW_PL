@@ -94,7 +94,7 @@ Para autenticação é necessário indicar o email e uma password.Esta informaç
 Caso a autenticação seja válida é criado um token que contém id do user, email, nome e tipo de utilizador.
 
 <img title="Autenticação" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/image.png" width="300" 
-     height="200">
+     height="300">
 
 <h1></h1>
 <h3>8.Registo</h3>
