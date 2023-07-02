@@ -111,7 +111,9 @@ Como oprópio nome indica, nesta página é possível criar um registo(apenas pa
 <h4>
         Página de edição de registo (/genesis/edit/:id)
 </h4>
-    
+Esta página permite que os administradores editem uma inquisição. Os campos aparecem automáticamente preenchidos com as informações contidas na Base de Dados.
+    <img title="Edit Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/editpage.png" width="800" >
+    <h2></h2>
 
 <h1></h1>
     
