@@ -48,7 +48,7 @@ O grupo organizou o trabalho em etapas,após analisar os requisitos, para conseg
      Após serem disponibilizados os temas possíveis de serem escolhidos para a realização do trabalho, e após analisar detalhadamente cada um deles bem como os respetivos requisitos, o grupo optou pela proposta Nº 2-Inquirições de Génere. Este pareceu-nos o tema mais interessante, visto que ainda não conhecíamos as Inquirições de Génere, nem a forma como funcionavam.
 <h1></h1>
 <h3>2.Análise do dataset</h3>
-     O grupo analisou o dataset para verificar se haviam inconsistências.O dataset fornecido era um ficheiro CSV, então criou-se um script em python, com a finalidade de converter o ficheiro original num ficheiro JSON, para que conseguir importar o dataset no MongoDB.No dataset final(JSON) é também adicionada uma coluna que contém um array com os ids de cada uma das pessoas com as quais aquela pessoa tem relação (campo "RelatedMaterial").
+     O grupo analisou o dataset para verificar se haviam inconsistências.O dataset fornecido era um ficheiro CSV, então criou-se um script em python(dataset/csv_to_json.csv), com a finalidade de converter o ficheiro original num ficheiro JSON, para que conseguir importar o dataset no MongoDB.No dataset final(JSON) é também adicionada uma coluna que contém um array com os ids de cada uma das pessoas com as quais aquela pessoa tem relação (campo "RelatedMaterial").
     <h1></h1>
 
 <h3>3.Importação do dataset no MongoDB</h3>
@@ -66,7 +66,7 @@ O grupo organizou o trabalho em etapas,após analisar os requisitos, para conseg
 | /api/authentication/register    | POST     |Guarda um utilizador novo na base de dados |
 | /api/authentication/login | POST |Valida dados de autenticação |
 | /api/genesis/:id | GET|Rota para obter uma entrada na base de dados com o id fornecido |
-| /api/genesis | GET,POST |GET->Lista de Inquisições;             Post -> Cria uma inquisição nova |
+| /api/genesis | GET,POST |GET->Lista de Inquisições;             POST -> Cria uma inquisição nova |
 
 <h1></h1>
     
@@ -84,28 +84,37 @@ O grupo organizou o trabalho em etapas,após analisar os requisitos, para conseg
     
 <h3>6.Interface</h3>
 Para tornar o programa visualmente apelativo e fácil de utilizar, o grupo criou algumas páginas em PUG, para que os utilizadores consigam navegar facilmente entre páginas e consigam realizar as ações pretendidas.
-De seguida são apresentadas as páginas e uma breve explicação do Conteúdo das mesmas.
+De seguida são apresentadas as páginas e uma breve explicação do conteúdo das mesmas.
 <h4>
         Página Inicial (/)
 </h4>
 Após realizar o login, é apresentada a página inicial que está na figura abaixo. Nela é possível observar uma lista de Inquirições, que são listadas em várias páginas para facilitar a navegação pelas inquirições. É também possível aumentar o número de registos apresentados.
 Para além disto, existe uma barra de pesquisa através da qual é possível procurar por nome(s), ou até mesmo por intervalo de datas.
 O grupo optou por mostrar apenas esta informação,pois achou que seria a informação ,mais relevante.
-    
+    <img title="Init Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/initpage.png" width="1000" >
+    <h2></h2>
 <h4>
         Página de Inquirição (/genesis/:id)
 </h4>
-Na página de inquirição, é possível observar todos os campos daquele documento, inclusive as relações, para as quais existe um link para navegar para a mesma.Para os administradores é possível editar um registo.-
+Na página de inquirição, é possível observar todos os campos daquele documento, inclusive as relações, para as quais existe um link para navegar para a mesma.Para os administradores é possível editar um registo, ou até mesmo eliminá-lo.
+
+ <img title="Inq Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/inqpage.png" width="1000" >
+    <h2></h2>
     
 <h4>
         Página de adição de registo (/genesis/new)
 </h4>
-Como oprópio nome indica, nesta página é possível criar um registo(apenas para Administradores)
+Como oprópio nome indica, nesta página é possível criar um registo(apenas para Administradores), inserindo os diversos campos(alguns obrigatórios, outros facultativos).É possível adicionar relações já existentes, que aparecem listadas.
+<img title="ADD Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/createpage.png" width="800" >
+    <h2></h2>
     
 <h4>
         Página de edição de registo (/genesis/edit/:id)
 </h4>
-    
+Esta página permite que os administradores editem uma inquisição. Os campos aparecem automáticamente preenchidos com as informações contidas na Base de Dados.
+    <img title="Edit Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/editpage.png" width="800" >
+
+    De notar que foram adicionados botões auxiliares para voltar e fazer LOG OUT, para facilitar a navegação pelas páginas.
 
 <h1></h1>
     
@@ -117,14 +126,12 @@ O Consumidor apenas pode navegar pelas inquisições e observá-las, enquanto qu
 Para autenticação é necessário indicar o email e uma password.Esta informação vai no corpo do pedido.
 Caso a autenticação seja válida é criado um token que contém id do user, email, nome e tipo de utilizador.
 
-<img title="Autenticação" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/image.png" width="300" 
-     height="300">
+<img title="Autenticação" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/image.png" width="400" >
 
 <h1></h1>
 <h3>8.Registo</h3>
-    Para registar um utilizador na base de dados CONTINUA
-    <img title="Registo" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/registo.png" width="400" 
-     height="400">
+    Para registar um utilizador na base de dados é necessário inserir Nome, E-mail, Password e o tipo de Utilizador.
+    <img title="Registo" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/registo.png" width="400" >
 <h1></h1>
     
 
