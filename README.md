@@ -89,7 +89,7 @@ De seguida são apresentadas as páginas e uma breve explicação do conteúdo d
         Página Inicial (/)
 </h4>
 Após realizar o login, é apresentada a página inicial que está na figura abaixo. Nela é possível observar uma lista de Inquirições, que são listadas em várias páginas para facilitar a navegação pelas inquirições. É também possível aumentar o número de registos apresentados.
-Para além disto, existe uma barra de pesquisa através da qual é possível procurar por nome(s), ou até mesmo por intervalo de datas.
+Para além disto, existe uma barra de pesquisa através da qual é possível procurar por nome(s), ou até mesmo filtrar por intervalo de datas ou local.
 O grupo optou por mostrar apenas esta informação,pois achou que seria a informação ,mais relevante.
     <img title="Init Page" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/initpage.png" width="1000" >
     <h2></h2>
