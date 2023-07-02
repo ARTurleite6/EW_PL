@@ -91,10 +91,12 @@ Tal como sugerido no Enunciado, o grupo incluiu dois tipos de utilizadores poss�
 O Consumidor apenas pode navegar pelas inquisições e observá-las, enquanto que o Administrador é capaz de adicionar,editar e eliminar inquisições.
 
 Para autenticação é necessário indicar o email e uma password.Esta informação vai no corpo do pedido.
-Caso a autenticação seja válida é criado um token que contém id do user, email, nome e tipo de utilizador 
+Caso a autenticação seja válida é criado um token que contém id do user, email, nome e tipo de utilizador.
+
 <img title="Autenticação" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/image.png" width="400" 
      height="400">
 
+<h1></h1>
 <h3>8.Registo</h3>
     Para registar um utilizador na base de dados CONTINUA
     <img title="Registo" alt="Alt text" src="https://github.com/ARTurleite6/EW_PL/blob/main/pics/registo.png" width="400" 
